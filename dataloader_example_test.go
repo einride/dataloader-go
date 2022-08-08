@@ -3,6 +3,7 @@ package dataloader_test
 import (
 	"context"
 	"fmt"
+	"time"
 
 	"go.einride.tech/dataloader"
 )
@@ -20,8 +21,8 @@ func ExampleDataloader() {
 			}
 			return users, nil
 		},
-		Wait:     0,
-		MaxBatch: 0,
+		Wait:     2 * time.Millisecond,
+		MaxBatch: 100,
 	})
 	users, err := loader.LoadAll([]string{"foo", "bar"})
 	if err != nil {

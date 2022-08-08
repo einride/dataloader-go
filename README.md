@@ -1,7 +1,7 @@
 Dataloader Go
 =============
 
-A generic implementation of a Facebook's [dataloader](https://github.com/facebook/dataloader) pattern, based on [vektah](https://github.com/vektah) pre-generics implementation [dataloaden](https://github.com/vektah/dataloaden).
+A generic implementation of a Facebook's [dataloader](https://github.com/facebook/dataloader) pattern, based on [vektah](https://github.com/vektah)'s pre-generics implementation [dataloaden](https://github.com/vektah/dataloaden).
 
 Example
 -------
@@ -20,8 +20,8 @@ func ExampleDataloader() {
 			}
 			return users, nil
 		},
-		Wait:     0,
-		MaxBatch: 0,
+		Wait:     2 * time.Millisecond,
+		MaxBatch: 100,
 	})
 	users, err := loader.LoadAll([]string{"foo", "bar"})
 	if err != nil {
