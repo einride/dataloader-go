@@ -1,4 +1,3 @@
-// nolint: revive // TODO: re-enable when Go types issue is fixed
 package dataloader
 
 import (
