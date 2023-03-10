@@ -14,6 +14,10 @@ type Config[T any] struct {
 	Wait time.Duration
 	// MaxBatch sets the max batch size when fetching data.
 	MaxBatch int
+	// Copy sets the function for how to copy values when priming
+	// the cache, see Dataloader.Prime.
+	// Copy must be specified if you intend to use Dataloader.Prime.
+	Copy func(src T) T
 }
 
 // Dataloader is a generic dataloader.
@@ -119,6 +123,25 @@ func (l *Dataloader[T]) LoadAllThunk(keys []string) func() ([]T, error) {
 		}
 		return values, nil
 	}
+}
+
+// Prime the cache with the provided key and value.
+// If the key already exists, no change is made and false is returned.
+// Calling Prime without specifying Copy in Config will panic.
+func (l *Dataloader[T]) Prime(key string, value T) bool {
+	if l.config.Copy == nil {
+		panic("Copy must be specified in dataloader.Config before calling Prime.")
+	}
+	l.mu.Lock()
+	var found bool
+	if _, found = l.cache[key]; !found {
+		// make a copy when writing to the cache, it's easy to pass a pointer in from a loop var
+		// and end up with the whole cache pointing to the same value.
+		cpy := l.config.Copy(value)
+		l.unsafeSet(key, cpy)
+	}
+	l.mu.Unlock()
+	return !found
 }
 
 func (l *Dataloader[T]) unsafeSet(key string, value T) {
