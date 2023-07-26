@@ -9,6 +9,7 @@ import (
 	"go.einride.tech/sage/tools/sggo"
 	"go.einride.tech/sage/tools/sggolangcilint"
 	"go.einride.tech/sage/tools/sggoreview"
+	"go.einride.tech/sage/tools/sggosemanticrelease"
 	"go.einride.tech/sage/tools/sgmarkdownfmt"
 )
 
@@ -62,4 +63,19 @@ func ConvcoCheck(ctx context.Context) error {
 func GitVerifyNoDiff(ctx context.Context) error {
 	sg.Logger(ctx).Println("verifying that git has no diff...")
 	return sggit.VerifyNoDiff(ctx)
+}
+
+func SemanticRelease(ctx context.Context, repo string, dry bool) error {
+	sg.Logger(ctx).Println("triggering release...")
+	args := []string{
+		"--allow-initial-development-versions",
+		"--allow-no-changes",
+		"--ci-condition=default",
+		"--provider=github",
+		"--provider-opt=slug=" + repo,
+	}
+	if dry {
+		args = append(args, "--dry")
+	}
+	return sggosemanticrelease.Command(ctx, args...).Run()
 }
