@@ -1,10 +1,11 @@
-Dataloader Go
-=============
+# Dataloader Go
 
-A generic implementation of a Facebook's [dataloader](https://github.com/facebook/dataloader) pattern, based on [vektah](https://github.com/vektah)'s pre-generics implementation [dataloaden](https://github.com/vektah/dataloaden).
+A generic implementation of a Facebook's
+[dataloader](https://github.com/facebook/dataloader) pattern, based on
+[vektah](https://github.com/vektah)'s pre-generics implementation
+[dataloaden](https://github.com/vektah/dataloaden).
 
-Example
--------
+## Example
 
 ```go
 func ExampleDataloader() {
