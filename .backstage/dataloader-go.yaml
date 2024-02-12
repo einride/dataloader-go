@@ -1,0 +1,11 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: dataloader-go
+  title: Dataloader Go
+  description: A generics-based implementation of the Facebook's dataloader pattern.
+spec:
+  type: go-library
+  lifecycle: production
+  owner: platform-engineering
+  system: backend-sdk
