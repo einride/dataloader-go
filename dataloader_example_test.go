@@ -14,7 +14,7 @@ func ExampleDataloader() {
 	}
 	ctx := context.Background()
 	loader := dataloader.New[User](ctx, dataloader.Config[User]{
-		Fetch: func(ctx context.Context, keys []string) ([]User, error) {
+		Fetch: func(_ context.Context, keys []string) ([]User, error) {
 			users := make([]User, len(keys))
 			for i, key := range keys {
 				users[i] = User{ID: key}
